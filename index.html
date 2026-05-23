@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دليل إعدادات OBS المثالية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Cairo+Play:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0D2340;
+    --blue: #1A4F8A;
+    --blue-mid: #2268B2;
+    --blue-light: #D6E8F7;
+    --blue-pale: #EEF5FC;
+    --orange: #E8701A;
+    --orange-light: #FDE8D8;
+    --orange-pale: #FEF4ED;
+    --green: #1B7A4A;
+    --green-light: #D4EFDF;
+    --green-pale: #EDF7F2;
+    --text: #111827;
+    --text-muted: #4B5563;
+    --text-faint: #9CA3AF;
+    --border: #E5EBF2;
+    --bg: #F8FAFE;
+    --white: #ffffff;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.7;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--navy);
+    padding: 56px 24px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 50%, rgba(34,104,178,0.35) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 60% at 80% 30%, rgba(232,112,26,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(34,104,178,0.25);
+    border: 1px solid rgba(34,104,178,0.5);
+    color: #93C5FD;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 99px;
+    margin-bottom: 20px;
+    letter-spacing: 0.04em;
+  }
+  .hero h1 {
+    font-size: clamp(26px, 5vw, 42px);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .hero h1 span { color: #FBA54C; }
+  .hero p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.6);
+    max-width: 520px;
+    margin: 0 auto 32px;
+    position: relative;
+  }
+  .hero-nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .hero-nav a {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 18px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.85);
+    border-radius: 99px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .hero-nav a:hover { background: rgba(255,255,255,0.15); color: #fff; }
+  .hero-nav a .num {
+    width: 22px; height: 22px;
+    background: var(--orange);
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+  }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 820px; margin: 0 auto; padding: 0 20px; }
+
+  /* ── SECTION ── */
+  .section {
+    margin: 36px 0;
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: 0 2px 16px rgba(13,35,64,0.05);
+  }
+  .section-header {
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-header.blue { background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%); }
+  .section-header.blue .sec-num { background: rgba(255,255,255,0.15); color: #fff; }
+  .section-header.blue h2 { color: #fff; }
+  .section-header.blue .sec-sub { color: rgba(255,255,255,0.65); }
+  .sec-num {
+    width: 36px; height: 36px; min-width: 36px;
+    border-radius: 50%;
+    background: var(--blue-light);
+    color: var(--blue);
+    font-size: 17px;
+    font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .sec-title { flex: 1; }
+  .sec-title h2 { font-size: 18px; font-weight: 700; line-height: 1.3; }
+  .sec-title .sec-sub { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+  .section-body { padding: 24px 28px; }
+
+  /* ── PATH BOX ── */
+  .path-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--blue-pale);
+    border: 1px solid var(--blue-light);
+    border-right: 4px solid var(--blue-mid);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin-bottom: 20px;
+  }
+  .path-box .path-icon {
+    font-size: 18px;
+    line-height: 1;
+    margin-top: 1px;
+  }
+  .path-box .path-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--blue-mid);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 3px;
+  }
+  .path-box .path-text {
+    font-size: 14px;
+    color: var(--navy);
+    font-weight: 600;
+    line-height: 1.6;
+  }
+  .path-box .path-text .arrow { color: var(--blue-mid); font-weight: 700; margin: 0 3px; }
+
+  /* ── SETTING ROWS ── */
+  .settings-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    gap: 12px;
+    transition: background 0.15s;
+  }
+  .setting-row:hover { background: var(--blue-pale); }
+  .setting-row .s-key {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    direction: ltr;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .setting-row .s-arrow {
+    color: var(--text-faint);
+    font-size: 18px;
+    line-height: 1;
+  }
+  .setting-row .s-val {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--orange);
+    background: var(--orange-pale);
+    border: 1px solid #FBCFA4;
+    padding: 3px 12px;
+    border-radius: 99px;
+    white-space: nowrap;
+    direction: ltr;
+  }
+  .setting-row .s-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    flex: 1;
+    text-align: center;
+  }
+
+  /* ── SUB-HEADER ── */
+  .sub-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 22px 0 10px;
+  }
+  .sub-header::before {
+    content: '';
+    display: block;
+    width: 4px; height: 18px;
+    background: var(--orange);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .sub-header h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── OPTION CARDS ── */
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .option-card {
+    padding: 14px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    position: relative;
+    background: var(--white);
+  }
+  .option-card.recommended { border-color: var(--orange); }
+  .option-card .opt-badge {
+    position: absolute;
+    top: -10px;
+    right: 14px;
+    background: var(--orange);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 99px;
+  }
+  .option-card .opt-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .option-card .opt-val {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--blue);
+    direction: ltr;
+    display: block;
+  }
+  .option-card .opt-cond {
+    font-size: 12px;
+    color: var(--text-faint);
+    margin-top: 4px;
+  }
+
+  /* ── TIP BOX ── */
+  .tip-box {
+    display: flex;
+    gap: 12px;
+    background: var(--green-pale);
+    border: 1px solid var(--green-light);
+    border-right: 4px solid var(--green);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-top: 20px;
+  }
+  .tip-box .tip-icon { font-size: 20px; line-height: 1; flex-shrink: 0; }
+  .tip-box .tip-content .tip-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .tip-box .tip-content p {
+    font-size: 14px;
+    color: #1A3A2A;
+    line-height: 1.7;
+  }
+  .tip-box .tip-content p .inline-val {
+    font-weight: 700;
+    color: var(--green);
+    background: var(--green-light);
+    padding: 0 6px;
+    border-radius: 4px;
+    font-size: 13px;
+    direction: ltr;
+    display: inline-block;
+  }
+
+  /* ── WARNING BOX ── */
+  .warn-box {
+    display: flex;
+    gap: 12px;
+    background: #FEF3F2;
+    border: 1px solid #FECDCA;
+    border-right: 4px solid #F04438;
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin-top: 8px;
+  }
+  .warn-box .w-icon { font-size: 18px; line-height: 1.2; flex-shrink: 0; }
+  .warn-box p { font-size: 13px; color: #7A271A; line-height: 1.6; }
+  .warn-box p strong { font-weight: 700; }
+
+  /* ── FILTER STEPS ── */
+  .filter-steps { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+  .filter-step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+  }
+  .filter-step .step-num {
+    width: 30px; height: 30px; min-width: 30px;
+    background: var(--navy);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .filter-step .step-body { flex: 1; }
+  .filter-step .step-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+    direction: ltr;
+    text-align: right;
+  }
+  .filter-step .step-name .arrow-sep { color: var(--blue-mid); margin: 0 4px; direction: rtl; display: inline-block; }
+  .filter-step .step-val {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--orange);
+    background: var(--orange-pale);
+    border: 1px solid #FBCFA4;
+    padding: 2px 10px;
+    border-radius: 99px;
+    direction: ltr;
+  }
+  .filter-step .step-note {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    line-height: 1.6;
+  }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    border: none;
+    border-top: 1px dashed var(--border);
+    margin: 20px 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+  footer .footer-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 10px 22px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .options-grid { grid-template-columns: 1fr; }
+    .section-body { padding: 18px 16px; }
+    .hero { padding: 40px 16px 36px; }
+    .setting-row { flex-wrap: wrap; }
+    .setting-row .s-note { order: 3; width: 100%; text-align: right; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-badge">🎮 دليل OBS الشامل</div>
+  <h1>إعدادات OBS <span>المثالية</span></h1>
+  <p>جودة بث احترافية بدون تعقيد — كل إعداد في مكانه الصح</p>
+  <nav class="hero-nav">
+    <a href="#section1"><span class="num">١</span> الفيديو والمخرج</a>
+    <a href="#section2"><span class="num">٢</span> الألوان</a>
+    <a href="#section3"><span class="num">٣</span> الصوت</a>
+  </nav>
+</header>
+
+<main class="container">
+
+  <!-- ══ SECTION 1 ══ -->
+  <section class="section" id="section1">
+    <div class="section-header blue">
+      <div class="sec-num">١</div>
+      <div class="sec-title">
+        <h2>إعدادات الفيديو والمخرج</h2>
+        <div class="sec-sub">التحكم في الـ Lag والجودة</div>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <!-- PATH 1 -->
+      <div class="path-box">
+        <div class="path-icon">📍</div>
+        <div>
+          <div class="path-label">المسار</div>
+          <div class="path-text">
+            Settings (الإعدادات)
+            <span class="arrow">◄</span>
+            Output (المخرج)
+            <span class="arrow">◄</span>
+            تبويب Streaming (البث)
+          </div>
+        </div>
+      </div>
+
+      <!-- BASIC SETTINGS -->
+      <div class="settings-grid">
+        <div class="setting-row">
+          <span class="s-key">Audio Track</span>
+          <span class="s-arrow">←</span>
+          <span class="s-val">1</span>
+        </div>
+        <div class="setting-row">
+          <span class="s-key">Rate Control</span>
+          <span class="s-arrow">←</span>
+          <span class="s-val">CBR</span>
+        </div>
+        <div class="setting-row">
+          <span class="s-key">Keyframe Interval</span>
+          <span class="s-arrow">←</span>
+          <span class="s-val">2s</span>
+        </div>
+        <div class="setting-row">
+          <span class="s-key">Max B-frames</span>
+          <span class="s-arrow">←</span>
+          <span class="s-val">2</span>
+        </div>
+      </div>
+
+      <!-- VIDEO ENCODER -->
+      <div class="sub-header"><h3>Video Encoder — حسب كرت الشاشة</h3></div>
+      <div class="options-grid">
+        <div class="option-card recommended">
+          <div class="opt-badge">الأحدث</div>
+          <div class="opt-label">RTX 40 / RX 7000</div>
+          <span class="opt-val">NVENC AV1 / AMF AV1</span>
+          <div class="opt-cond">للكروت الحديثة</div>
+        </div>
+        <div class="option-card">
+          <div class="opt-label">كروت أقدم</div>
+          <span class="opt-val">NVENC H.264 / AMD H.264</span>
+          <div class="opt-cond">الأكثر توافقاً</div>
+        </div>
+      </div>
+
+      <!-- BITRATE -->
+      <div class="sub-header"><h3>Bitrate — حسب سرعة الرفع</h3></div>
+      <div class="options-grid">
+        <div class="option-card recommended">
+          <div class="opt-badge">مثالي</div>
+          <div class="opt-label">1080p60 — إنترنت عادي</div>
+          <span class="opt-val">6,000 Kbps</span>
+          <div class="opt-cond">رفع فوق 10 Mbps</div>
+        </div>
+        <div class="option-card">
+          <div class="opt-label">إنترنت ضعيف</div>
+          <span class="opt-val">4,000 Kbps</span>
+          <div class="opt-cond">رفع أقل من 10 Mbps</div>
+        </div>
+      </div>
+
+      <!-- PRESET -->
+      <div class="sub-header"><h3>Preset — حسب قوة الجهاز</h3></div>
+      <div class="options-grid">
+        <div class="option-card recommended">
+          <div class="opt-badge">موصى به</div>
+          <div class="opt-label">جهاز عادي إلى قوي</div>
+          <span class="opt-val">P4: Medium / P5: Slow</span>
+          <div class="opt-cond">أفضل توازن جودة/أداء</div>
+        </div>
+        <div class="option-card">
+          <div class="opt-label"> جهاز قديم</div>
+          <span class="opt-val">P2: Fast</span>
+          <div class="opt-cond">إذا واجهت ثقلاً</div>
+        </div>
+      </div>
+
+      <hr class="section-divider">
+
+      <!-- PATH 2 -->
+      <div class="path-box">
+        <div class="path-icon">📍</div>
+        <div>
+          <div class="path-label">المسار</div>
+          <div class="path-text">
+            Settings (الإعدادات)
+            <span class="arrow">◄</span>
+            Video (الفيديو)
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-grid">
+        <div class="setting-row">
+          <span class="s-key">Base (Canvas) Resolution</span>
+          <span class="s-arrow">←</span>
+          <span class="s-val">دقة شاشتك</span>
+          <span class="s-note">مثال: 1920×1080</span>
+        </div>
+        <div class="setting-row">
+          <span class="s-key">Output (Scaled) Resolution</span>
+          <span class="s-arrow">←</span>
+          <span class="s-val">1920×1080</span>
+          <span class="s-note">أو 2560×1440 لإنترنت خارق</span>
+        </div>
+      </div>
+
+      <!-- FPS -->
+      <div class="sub-header"><h3>Common FPS Values</h3></div>
+      <div class="options-grid">
+        <div class="option-card recommended">
+          <div class="opt-badge">مناسب لمحتوى التداول</div>
+          <div class="opt-label">للفديوهات العادية</div>
+          <span class="opt-val">60 FPS</span>
+          <div class="opt-cond">توفير موارد وللفديوهات البسيطة</div>
+        </div>
+        <div class="option-card">
+          <div class="opt-label">العاب او اشياء سريعة جدا</div>
+          <span class="opt-val">60 FPS</span>
+          <div class="opt-cond">سرعة اكبر</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ SECTION 2 ══ -->
+  <section class="section" id="section2">
+    <div class="section-header blue">
+      <div class="sec-num">٢</div>
+      <div class="sec-title">
+        <h2>إعدادات الألوان</h2>
+        <div class="sec-sub">حيوية وبدون بهتان</div>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="path-box">
+        <div class="path-icon">📍</div>
+        <div>
+          <div class="path-label">المسار</div>
+          <div class="path-text">
+            Settings
+            <span class="arrow">◄</span>
+            Advanced (متقدم)
+            <span class="arrow">◄</span>
+            قسم Video
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-grid">
+        <div class="setting-row">
+          <span class="s-key">Color Format</span>
+          <span class="s-arrow">←</span>
+          <span class="s-val">NV12</span>
+        </div>
+        <div class="setting-row">
+          <span class="s-key">Color Space</span>
+          <span class="s-arrow">←</span>
+          <span class="s-val">Rec. 709</span>
+        </div>
+        <div class="setting-row">
+          <span class="s-key">Color Range</span>
+          <span class="s-arrow">←</span>
+          <span class="s-val">Limited</span>
+        </div>
+      </div>
+
+      <div class="warn-box">
+        <div class="w-icon">⚠️</div>
+        <p><strong>إياك تختار Full</strong> — اختيار Full Range يسبب تشوه الألوان لدى المشاهد وتظهر باهتة أو محروقة على أجهزتهم.</p>
+      </div>
+
+      <div class="tip-box">
+        <div class="tip-icon">💡</div>
+        <div class="tip-content">
+          <div class="tip-label">تعديل حسب ذوقك البصري</div>
+          <p>
+            كليك يمين على مصدر اللعبة في OBS ← اختر <strong>Filters</strong> ← أضف فلتر <strong>Color Correction</strong> ←
+            زد خيار <strong>Saturation</strong> بمقدار بسيط بين
+            <span class="inline-val">0.05</span> و <span class="inline-val">0.10</span>
+            لزيادة حيوية الألوان.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ SECTION 3 ══ -->
+  <section class="section" id="section3">
+    <div class="section-header blue">
+      <div class="sec-num">٣</div>
+      <div class="sec-title">
+        <h2>إعدادات وتصفية الصوت</h2>
+        <div class="sec-sub">نقاء الاستوديو</div>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <!-- PATH: General -->
+      <div class="path-box">
+        <div class="path-icon">📍</div>
+        <div>
+          <div class="path-label">المسار</div>
+          <div class="path-text">
+            Settings
+            <span class="arrow">◄</span>
+            Audio (الصوت)
+            <span class="arrow">◄</span>
+            قسم General
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-grid">
+        <div class="setting-row">
+          <span class="s-key">Sample Rate</span>
+          <span class="s-arrow">←</span>
+          <span class="s-val">48 kHz</span>
+        </div>
+        <div class="setting-row">
+          <span class="s-key">Channels</span>
+          <span class="s-arrow">←</span>
+          <span class="s-val">Stereo</span>
+        </div>
+      </div>
+
+      <hr class="section-divider">
+
+      <!-- PATH: Output Audio -->
+      <div class="path-box">
+        <div class="path-icon">📍</div>
+        <div>
+          <div class="path-label">المسار</div>
+          <div class="path-text">
+            Settings
+            <span class="arrow">◄</span>
+            Output (المخرج)
+            <span class="arrow">◄</span>
+            تبويب Audio
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-grid">
+        <div class="setting-row">
+          <span class="s-key">Audio Bitrate — Track 1</span>
+          <span class="s-arrow">←</span>
+          <span class="s-val">160 أو 192 Kbps</span>
+        </div>
+      </div>
+
+      <hr class="section-divider">
+
+      <!-- PATH: Filters -->
+      <div class="path-box">
+        <div class="path-icon">📍</div>
+        <div>
+          <div class="path-label">المسار</div>
+          <div class="path-text">
+            الواجهة الرئيسية
+            <span class="arrow">◄</span>
+            الترس بجانب المايك في Audio Mixer
+            <span class="arrow">◄</span>
+            Filters
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-header"><h3>أضف الفلاتر بهذا الترتيب</h3></div>
+
+      <div class="filter-steps">
+
+        <div class="filter-step">
+          <div class="step-num">١</div>
+          <div class="step-body">
+            <div class="step-name">Noise Suppression</div>
+            <span class="step-val">RNNoise</span>
+            <div class="step-note">إزالة ضوضاء خلفية بالذكاء الاصطناعي — الأفضل من حيث الجودة</div>
+          </div>
+        </div>
+
+        <div class="filter-step">
+          <div class="step-num">٢</div>
+          <div class="step-body">
+            <div class="step-name">Noise Gate</div>
+            <div class="step-note">اضبط مؤشرات الـ <strong>Threshold</strong> ليفتح المايك فقط عندما تتحدث — يمنع التقاط صوت الكيبورد أثناء صمتك</div>
+          </div>
+        </div>
+
+        <div class="filter-step">
+          <div class="step-num">٣</div>
+          <div class="step-body">
+            <div class="step-name">Compressor</div>
+            <span class="step-val">الإعدادات الافتراضية</span>
+            <div class="step-note">يحقق توازناً تلقائياً بين الهمس والصراخ</div>
+          </div>
+        </div>
+
+        <div class="filter-step">
+          <div class="step-num">٤</div>
+          <div class="step-body">
+            <div class="step-name">Limiter <span class="arrow-sep">←</span> Threshold</div>
+            <span class="step-val">-2.0 dB</span>
+            <div class="step-note">يحمي آذان المتابعين من الأصوات العالية المفاجئة</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    🎮 بث سعيد ومشاهدة ممتعة
+  </div>
+    <div class="footer-inner">
+    🎮 إعداد مازن مصطفى 🌹
+  </div>
+
+</footer>
+
+</body>
+</html>
